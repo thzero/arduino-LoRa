@@ -96,6 +96,15 @@ public:
   void setSPI(SPIClass& spi);
   void setSPIFrequency(uint32_t frequency);
 
+  bool getCrcEnabled();
+  float getFrequency();
+  uint8_t getGain();
+  long getPreambleLength();
+  long getSignalBandwidth();
+  float getSignalBandwidthF();
+  int getSpreadingFactor();
+  int getSyncWord();
+
   void dumpRegisters(Stream& out);
 
 private:
@@ -104,9 +113,6 @@ private:
 
   void handleDio0Rise();
   bool isTransmitting();
-
-  int getSpreadingFactor();
-  long getSignalBandwidth();
 
   void setLdoFlag();
   void setLdoFlagForced(const boolean);

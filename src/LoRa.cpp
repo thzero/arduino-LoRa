@@ -498,6 +498,11 @@ void LoRaClass::setFrequency(long frequency)
   writeRegister(REG_FRF_LSB, (uint8_t)(frf >> 0));
 }
 
+float LoRaClass::getFrequency()
+{
+  return _frequency / 1000000.0f;
+}
+
 int LoRaClass::getSpreadingFactor()
 {
   return readRegister(REG_MODEM_CONFIG_2) >> 4;
@@ -541,6 +546,11 @@ long LoRaClass::getSignalBandwidth()
   }
 
   return -1;
+}
+
+float LoRaClass::getSignalBandwidthF()
+{
+  return getSignalBandwidth() / 1000.0f;
 }
 
 void LoRaClass::setSignalBandwidth(long sbw)
@@ -627,6 +637,11 @@ void LoRaClass::disableCrc()
   writeRegister(REG_MODEM_CONFIG_2, readRegister(REG_MODEM_CONFIG_2) & 0xfb);
 }
 
+bool LoRaClass::getCrcEnabled()
+{
+  return readRegister(REG_MODEM_CONFIG_2) & 0x04;
+}
+
 void LoRaClass::enableInvertIQ()
 {
   writeRegister(REG_INVERTIQ,  0x66);
@@ -686,6 +701,14 @@ void LoRaClass::setGain(uint8_t gain)
     // set gain
     writeRegister(REG_LNA, readRegister(REG_LNA) | (gain << 5));
   }
+}
+
+uint8_t LoRaClass::getGain()
+{
+  if (readRegister(REG_MODEM_CONFIG_3) == 0x00)
+    return (readRegister(REG_LNA) >> 5) & 0x1F;
+
+  return 0;
 }
 
 byte LoRaClass::random()
